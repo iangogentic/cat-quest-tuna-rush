@@ -12,8 +12,7 @@ export class ResultsScene extends Phaser.Scene {
   }
 
   shutdown(): void {
-    // Clean up keyboard listeners when scene stops
-    this.input.keyboard?.removeAllListeners();
+    // ResultsScene doesn't add keyboard listeners, so nothing to clean up
   }
 
   create(data: LevelResult & { levelKey: string }): void {

@@ -13,8 +13,7 @@ export class OptionsScene extends Phaser.Scene {
   }
 
   shutdown(): void {
-    // Clean up keyboard listeners when scene stops
-    this.input.keyboard?.removeAllListeners();
+    // OptionsScene doesn't add keyboard listeners, so nothing to clean up
   }
 
   create(): void {

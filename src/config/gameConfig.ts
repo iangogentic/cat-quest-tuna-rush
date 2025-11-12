@@ -18,6 +18,11 @@ export const gameConfig: Phaser.Types.Core.GameConfig = {
   width: GAME_WIDTH,
   height: GAME_HEIGHT,
   pixelArt: true,
+  input: {
+    keyboard: {
+      capture: [32, 37, 38, 39, 40, 65, 68, 87, 83, 16], // Capture: Space, Arrows, WASD, Shift
+    },
+  },
   physics: {
     default: 'arcade',
     arcade: {

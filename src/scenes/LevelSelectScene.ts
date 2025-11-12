@@ -11,8 +11,7 @@ export class LevelSelectScene extends Phaser.Scene {
   }
 
   shutdown(): void {
-    // Clean up keyboard listeners when scene stops
-    this.input.keyboard?.removeAllListeners();
+    // LevelSelectScene doesn't add keyboard listeners, so nothing to clean up
   }
 
   create(): void {

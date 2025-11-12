@@ -10,8 +10,7 @@ export class CreditsScene extends Phaser.Scene {
   }
 
   shutdown(): void {
-    // Clean up keyboard listeners when scene stops
-    this.input.keyboard?.removeAllListeners();
+    // CreditsScene doesn't add keyboard listeners, so nothing to clean up
   }
 
   create(): void {

@@ -57,8 +57,8 @@ export class GameScene extends Phaser.Scene {
   }
 
   shutdown(): void {
-    // Clean up keyboard listeners when scene stops
-    this.input.keyboard?.removeAllListeners();
+    // Only remove the ESC key listener, not all listeners (Player needs its keys)
+    this.input.keyboard?.off('keydown-ESC');
   }
 
   create(): void {

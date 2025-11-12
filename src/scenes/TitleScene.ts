@@ -13,8 +13,11 @@ export class TitleScene extends Phaser.Scene {
   }
 
   shutdown(): void {
-    // Clean up all keyboard listeners when scene stops
-    this.input.keyboard?.removeAllListeners();
+    // Clean up keyboard event listeners when scene stops
+    this.input.keyboard?.off('keydown-UP');
+    this.input.keyboard?.off('keydown-DOWN');
+    this.input.keyboard?.off('keydown-SPACE');
+    this.input.keyboard?.off('keydown-ENTER');
   }
 
   create(): void {
