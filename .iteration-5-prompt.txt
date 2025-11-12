@@ -1,0 +1,413 @@
+You are continuing work on an existing project.
+
+## Project Context
+
+### Original PRD
+# Cat Quest: Tuna Rush — PRD (Web-Only)
+
+## 1) Overview
+- **Concept:** 2D side-scrolling platformer inspired by classic Mario. You play as a nimble cat collecting tuna while navigating whimsical city rooftops and alleys.
+- **Platform:** Web-only (HTML5/Canvas). No native exports in MVP.
+- **Audience:** Casual players 7+, fans of cute platformers.
+- **Design Pillars:** Snappy feel • Clean readability • Short, replayable stages.
+
+## 2) Goals & Success (MVP)
+- **Goal:** Ship a polished 10–15 minute web demo that feels great.
+- **Success Metrics:** Avg session ≥ 6 min; L1 completion ≥ 60%; soft-launch D7 ≥ 10% (if analytics enabled).
+
+## 3) Core Loop
+Run → jump → avoid hazards → collect tuna → reach goal → earn stars → unlock cosmetics → replay for better score/time.
+
+## 4) Controls (Web)
+- **Move:** A/D or ←/→
+- **Jump:** Space (hold for higher jump) — includes 100 ms coyote time + 100 ms jump buffer
+- **Dash (power-up):** Shift
+- **Pause:** Esc
+- **Touch (optional pass):** Left/Right on-screen buttons + Jump + Dash
+
+## 5) Mechanics
+- **Movement:** Ground accel/decel tuned for responsiveness; adjustable air control. Target “tight” rather than floaty.
+- **Health:** 1-hit KO (MVP) with fast respawn at last checkpoint/flag.
+- **Scoring:** Tuna collected + time bonus + no-hit bonus → 1–3 stars per level.
+- **Lives:** Infinite (teach mastery, not punishment).
+- **Physics:** Tile/grid collisions; moving platforms; springs/bouncers; breakable crates.
+
+## 6) Level Design (World 1 — MVP)
+- **Theme:** Alley & Rooftops
+- **Structure:** 3 short stages + 1 mini-boss (each 60–90 sec; 30–50 tuna; 2–3 secrets).
+  - **L1-1:** Basics + tuna trails; zero-pit intro.
+  - **L1-2:** Vertical sections, moving platforms, first enemies.
+  - **L1-3:** Hazards (spikes, falling crates), tighter timing.
+  - **L1-Boss:** Fishmonger’s Dog — telegraphed charges; 3 hits.
+- **Difficulty Curve:** Gentle ramp; boss is pattern-learning, not DPS race.
+
+## 7) Enemies & Hazards
+- **Pigeon:** Slow hop patrol; stompable.
+- **Crab:** Armored; not stompable; avoid or dash past.
+- **Dog (Mini-boss):** Telegraphs charge; stunned after wall bonk.
+- **Hazards:** Spikes, pits, falling crates, weak platforms, fans (wind gust).
+
+## 8) Power-Ups (MVP)
+- **Catnip Dash:** Short burst; one midair use; refresh on ground touch.
+- **Fish Magnet:** 10 sec pickup radius.
+- **Nine Lives:** One-hit shield (prototype only; optional).
+
+## 9) Progression & Rewards
+- **Stars:** 1–3 per level (collection %, time, no-hit).
+- **Cosmetics:** Hats/collars/skins unlocked at star thresholds (e.g., 6/9/12 stars). Non-monetized in MVP.
+- **Speedrun:** Timer unlocks after first clear; ghost (post-MVP).
+
+## 10) Art Direction
+- **Style:** Cozy pixel art; readable silhouettes; low-noise tiles.
+- **Cat Sprite:** 32×32 base; run/jump/fall/land/dash animations.
+- **Environment:** Parallax rooftops, laundry lines, chimneys, sunset sky.
+- **UI:** Minimal fish counter; big clear fonts; star results screen.
+
+## 11) Audio
+- **Music:** Upbeat chiptune; per-stage variation.
+- **SFX:** Meow (jump), purr (pickup), bark telegraph (boss), soft land thud.
+- **Mix:** Limit peak loudness; master volume slider.
+
+## 12) Technology (Web-Only)
+- **Engine/Framework:** Phaser 3 (Canvas/WebGL auto) **or** PixiJS + custom platformer logic (choose one; default to Phaser 3 for speed).
+- **Resolution:** 1280×720 logical, scale to fit (letterbox on ultra-wide).
+- **Asset Pipeline:** Texture atlases (spritesheets), OGG/MP3 audio, bitmap fonts or web fonts.
+- **Build:** Vite + TypeScript; tree-shake; code-split per scene.
+- **Deploy:** Static site to Vercel/Netlify/GitHub Pages (no server needed).
+- **Save:** LocalStorage for stars/cosmetics/settings. (Future: IndexedDB if needed.)
+- **Analytics (optional):** Lightweight pings (page load, level start/finish, deaths, tuna collected).
+
+## 13) Accessibility & QoL
+- Remappable keys.
+- Reduced motion toggle (limit screen shake/parallax).
+- Color-safe palettes; avoid red/green reliance for tuna vs. hazards.
+- Generous coyote time/jump buffer; input buffering on spawn.
+- Toggle checkpoints on/off (off by default for MVP).
+
+## 14) Monetization (Post-MVP Only)
+- Free web demo. Future: cosmetic DLC or season pass on web; respect COPPA/GDPR. No ads in MVP.
+
+## 15) MVP Scope (Backlog)
+- Player controller (run/jump/coyote/buffer/dash)
+- Tuna system (pickup, UI counter, score calc)
+- 4 levels (3 + mini-boss) with tilemaps
+- 3 enemies + 3 hazards
+- 3 power-ups
+- Menus: Title, Level Select, Options, Skins, Credits
+- Star rating/result screen
+- Local save system
+- Basic audio set
+- Deploy pipeline
+
+## 16) Risks & Mitigations
+- **Floaty feel:** Iterate accel/jump curves; add jump cut (short-hop) and early fall gravity.
+- **Difficulty spikes:** Playtest heatmaps; tune enemy/hazard density.
+- **Perf on low-end devices:** Sprite batching; atlas packing; cap particles; limit overdraw; prefer integer scaling.
+
+## 17) Milestones (4–5 Weeks)
+- **W1:** Core controller + collisions; tuna pickup; placeholder tiles/art.
+- **W2:** Enemies/hazards; L1–L2 blockouts; UI counters.
+- **W3:** Power-ups; L3 + boss; stars/scoring; menus.
+- **W4:** Art/audio polish; cosmetics; perf pass; deploy.
+- **W5 (buffer):** QA, accessibility, tuning, analytics toggle.
+
+## 18) Team & Tools
+- **Roles:** 1 dev, 1 pixel artist, 1 audio (or stock), 1 producer/designer (part-time).
+- **Primary Tools:** Phaser 3, Vite, TypeScript, Tiled (tilemaps), Aseprite (art), Audacity/Bfxr (SFX), GitHub, Vercel.
+
+---
+
+### Implementation Notes (Phaser 3)
+- Use Arcade Physics; fixed time step; gravity ~ 1600; jump velocity ~ -540 (tune).
+- Coyote/jump buffer via timers and last-on-ground timestamps.
+- Scene breakdown: Boot → Preload → Title → LevelSelect → Level(N) → Results → Skins.
+- Tile layers: ground (collidable), hazards (sensor), deco (non-collide), moving platforms (kinematic groups).
+- Data model: `save.json` in LocalStorage: `{ starsByLevel, cosmeticsUnlocked, settings }`.
+
+### Out of Scope (MVP)
+- Multiplayer, level editor, ads, cloud saves, mobile-native wrappers, monetization flows.
+
+
+---
+
+### Iteration History
+# Project Iterations
+
+<!--
+This file tracks the history of all iterations (changes) made to the project.
+Each entry documents what was changed, when, and the outcome.
+
+Usage:
+- Iteration 1 is always the initial build from PRD.md
+- Each subsequent iteration gets a new numbered section
+- Update status as: 🔄 In Progress → ✅ Complete OR 🔴 Blocked
+- Branch names follow format: iter-NNN-description (e.g., iter-002-dark-mode)
+-->
+
+## Iteration 1: Initial Build
+**Date:** 11/12/2025, 11:37
+**Branch:** main
+**Status:** ✅ Complete
+**Summary:** Built complete project from PRD.md
+**Files Changed:** [FILE_COUNT] files created
+**Tests:** [PASS_COUNT]/[TOTAL_COUNT] passing
+**Deploy:** [DEPLOYMENT_URL or "Not deployed"]
+
+---
+
+<!-- Example: Successful Iteration -->
+<!--
+## Iteration 2: [FEATURE_NAME]
+**Date:** 11/12/2025, 11:37
+**Branch:** iter-002-[feature-slug]
+**Status:** ✅ Complete
+**Request:** "[User's original request]"
+**Summary:** [What was accomplished]
+**Files Changed:** [FILE_COUNT] files ([CREATED] created, [MODIFIED] modified, [DELETED] deleted)
+**Tests:** [PASS_COUNT]/[TOTAL_COUNT] passing ([NEW_COUNT] new tests added)
+**Deploy:** [DEPLOYMENT_URL]
+**Time Taken:** [X]m [Y]s
+
+### Changed Files:
+- path/to/file1.tsx (created)
+- path/to/file2.ts (modified)
+- path/to/file3.css (modified)
+
+---
+-->
+
+<!-- Example: Blocked Iteration -->
+<!--
+## Iteration 3: [FEATURE_NAME]
+**Date:** 11/12/2025, 11:37
+**Branch:** iter-003-[feature-slug]
+**Status:** 🔴 Blocked
+**Request:** "[User's original request]"
+**Blocker:** [What prevented completion - e.g., "Missing API credentials", "Tests failing", "Merge conflict"]
+**Files Changed:** [FILE_COUNT] files (changes not merged)
+**Tests:** [PASS_COUNT]/[TOTAL_COUNT] passing ([FAIL_COUNT] failing)
+
+### Issue Details:
+[Detailed explanation of what went wrong and what's needed to unblock]
+
+### Next Steps:
+- [ ] [Action item 1]
+- [ ] [Action item 2]
+
+---
+-->
+
+<!-- Example: In Progress -->
+<!--
+## Iteration 4: [FEATURE_NAME]
+**Date:** 11/12/2025, 11:37
+**Branch:** iter-004-[feature-slug]
+**Status:** 🔄 In Progress
+**Request:** "[User's original request]"
+**Tasks:** [TOTAL] total ([COMPLETED] completed, [PENDING] pending)
+
+### Current Progress:
+- [x] Task 1
+- [x] Task 2
+- [ ] Task 3
+- [ ] Task 4
+
+---
+-->
+## Iteration 5: continue
+**Date:** 11/12/2025, 11:56:03 AM
+**Branch:** iteration-5
+**Status:** 🔄 In Progress
+**Request:** "continue"
+
+---
+
+
+
+---
+
+### Technical Decisions
+# Technical Decisions
+
+<!--
+This file documents all major technical choices made during project development.
+Helps maintain consistency and provides context for future iterations.
+
+Usage:
+- Add entry when choosing frameworks, libraries, architecture patterns, etc.
+- Include WHY the decision was made
+- Document alternatives that were considered
+- Update if decisions change later
+
+Format for each decision:
+## [Category]: [Decision Name]
+**Why:** [Explanation of reasoning]
+**Alternatives Considered:** [Other options evaluated]
+**Date:** 2025-11-12
+**Iteration:** [When this was decided]
+-->
+
+---
+
+<!-- Initial Build Decisions (Iteration 1) -->
+
+## Framework Choice: [FRAMEWORK_NAME]
+**Why:** [Reason for choosing this framework - e.g., "Modern React framework with App Router, built-in optimization, great DX"]
+**Alternatives Considered:** [Other options - e.g., "Remix, Vite + React, Create React App"]
+**Date:** 2025-11-12
+**Iteration:** 1 (Initial Build)
+
+## Styling: [STYLING_SOLUTION]
+**Why:** [Reason - e.g., "Utility-first CSS, fast iteration, consistent design system, great with components"]
+**Alternatives Considered:** [Other options - e.g., "CSS Modules, styled-components, Emotion, plain CSS"]
+**Date:** 2025-11-12
+**Iteration:** 1 (Initial Build)
+
+## Database: [DATABASE_CHOICE]
+**Why:** [Reason - e.g., "Serverless PostgreSQL, auto-scaling, generous free tier, great DX with Prisma"]
+**Alternatives Considered:** [Other options - e.g., "Supabase, PlanetScale, MongoDB Atlas"]
+**Date:** 2025-11-12
+**Iteration:** 1 (Initial Build)
+
+## Authentication: [AUTH_SOLUTION]
+**Why:** [Reason - e.g., "Industry standard, supports multiple providers, easy integration with Next.js"]
+**Alternatives Considered:** [Other options - e.g., "Auth0, Clerk, Supabase Auth, custom solution"]
+**Date:** 2025-11-12
+**Iteration:** 1 (Initial Build)
+
+## Deployment Platform: [PLATFORM_NAME]
+**Why:** [Reason - e.g., "Zero-config deployment, edge functions, great Next.js integration, built-in CI/CD"]
+**Alternatives Considered:** [Other options - e.g., "Netlify, Railway, AWS Amplify, self-hosted"]
+**Date:** 2025-11-12
+**Iteration:** 1 (Initial Build)
+
+---
+
+<!-- Example: Mid-Project Architecture Decision -->
+<!--
+## State Management: Zustand
+**Why:** Simple API, small bundle size, works well with React Server Components, no boilerplate
+**Alternatives Considered:** Redux Toolkit, Jotai, Context API only
+**Date:** 2025-01-08
+**Iteration:** 3 (Added complex UI state)
+**Context:** Needed global state for theme, sidebar, and user preferences without prop drilling
+-->
+
+<!-- Example: Infrastructure Decision -->
+<!--
+## File Storage: Vercel Blob Storage
+**Why:** Seamless integration with Vercel, CDN included, simple API, pay-as-you-go pricing
+**Alternatives Considered:** AWS S3, Cloudinary, Uploadthing
+**Date:** 2025-01-09
+**Iteration:** 5 (Image upload feature)
+**Context:** Users need to upload profile pictures and document attachments
+-->
+
+<!-- Example: Changed Decision -->
+<!--
+## API Layer: tRPC ~~REST~~
+**Why:** Type-safe APIs end-to-end, no code generation needed, great DX with TypeScript
+**Alternatives Considered:** GraphQL (too complex for needs), plain REST (losing type safety)
+**Date:** 2025-01-10
+**Iteration:** 7 (API refactor)
+**Previous Decision:** Originally used REST with Zod validation (Iteration 1)
+**Why Changed:** Lost type safety between frontend/backend, needed to duplicate types, tRPC eliminates this
+-->
+
+<!-- Example: Testing Decision -->
+<!--
+## Testing Strategy: Vitest + Testing Library
+**Why:** Fast, ESM native, compatible with Vite, familiar API for Jest users
+**Alternatives Considered:** Jest, Playwright only, no testing
+**Date:** 2025-01-11
+**Iteration:** 8 (Added test suite)
+**Coverage Goals:** 80% for utils, 60% for components, 100% for critical auth flows
+-->
+
+---
+
+<!-- Guidelines for Adding New Decisions -->
+<!--
+Add a decision when:
+✅ Choosing between multiple technical approaches
+✅ Selecting a library or framework
+✅ Making architecture decisions (monolith vs microservices, etc.)
+✅ Changing an existing decision
+✅ Setting coding standards or conventions
+
+Don't add decisions for:
+❌ Minor implementation details
+❌ Obvious choices with no alternatives
+❌ Temporary debugging changes
+❌ Personal code style preferences (unless team standard)
+-->
+
+
+---
+
+### Current Tasks
+No tasks file found.
+
+---
+
+### Recent Conversation
+[11/12/2025, 11:56:03 AM] user: continue
+
+[11/12/2025, 11:56:03 AM] assistant [in_progress]: Working on your request...
+
+---
+
+## Current Request (Iteration 5)
+
+User said: "continue"
+
+---
+
+## Your Mission
+
+You are working on iteration **5** directly on the current branch.
+
+Please complete this iteration following these steps:
+
+1. **Plan the Changes**
+   - Add a new section to TASKS.md: `## Iteration 5: continue`
+   - List all tasks needed to complete this request
+   - Use TodoWrite to track your progress
+
+2. **Implement the Changes**
+   - Follow existing code patterns and architecture
+   - Maintain consistency with previous iterations
+   - Write clean, documented code
+   - Add comments explaining complex logic
+
+3. **Test Thoroughly**
+   - Run ALL existing tests
+   - Write new tests for new functionality
+   - Ensure all tests pass before committing
+   - Verify functionality manually if needed
+
+4. **Update Documentation**
+   - Update ITERATIONS.md with this iteration's summary
+   - Update relevant documentation files
+   - Add entry to CHANGELOG.md if it exists
+
+5. **Commit Only if Tests Pass**
+   - DO NOT commit if any tests fail
+   - If blocked, update BLOCKED.md with details and stop
+   - If successful, commit with descriptive message
+
+---
+
+## Critical Rules
+
+- ✅ Work autonomously - don't ask for permission
+- ✅ Use TodoWrite to show progress
+- ✅ Follow existing patterns and conventions
+- ✅ Test everything before committing
+- ❌ DO NOT commit if tests fail
+- ❌ DO NOT break existing functionality
+- ❌ DO NOT skip documentation updates
+
+---
+
+Work autonomously and complete this iteration. Good luck!

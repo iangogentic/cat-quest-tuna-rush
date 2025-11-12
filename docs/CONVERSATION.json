@@ -4,8 +4,25 @@
   "_comment_structure": "Each turn represents one message exchange with metadata",
   "project": "Cat_Quest_Tuna_Rush_PRD",
   "created": "2025-11-12T17:37:56.123Z",
-  "lastUpdated": "2025-11-12T17:37:56.123Z",
-  "turns": [],
+  "lastUpdated": "2025-11-12T17:56:03.031Z",
+  "turns": [
+    {
+      "id": 1,
+      "role": "user",
+      "content": "continue",
+      "timestamp": "2025-11-12T17:56:03.030Z",
+      "iteration": 5,
+      "branch": "iteration-5"
+    },
+    {
+      "id": 2,
+      "role": "assistant",
+      "content": "Working on your request...",
+      "timestamp": "2025-11-12T17:56:03.031Z",
+      "iteration": 5,
+      "status": "in_progress"
+    }
+  ],
   "_field_definitions": {
     "id": "Sequential turn number (increments for each message)",
     "iteration": "Which iteration number this turn belongs to (0 for pre-build chat)",
