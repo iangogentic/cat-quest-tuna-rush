@@ -1,0 +1,24 @@
+{
+  "name": "cat-quest-tuna-rush",
+  "version": "1.0.0",
+  "description": "A charming 2D platformer where you play as a nimble cat collecting tuna across whimsical rooftops",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "test": "echo \"Tests will be added\" && exit 0"
+  },
+  "keywords": ["game", "platformer", "phaser", "typescript", "pixel-art"],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^24.10.1",
+    "typescript": "^5.9.3",
+    "vite": "^7.2.2",
+    "vite-plugin-html": "^3.2.2"
+  },
+  "dependencies": {
+    "phaser": "^3.90.0"
+  }
+}
