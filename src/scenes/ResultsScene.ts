@@ -11,6 +11,11 @@ export class ResultsScene extends Phaser.Scene {
     super({ key: SCENES.RESULTS });
   }
 
+  shutdown(): void {
+    // Clean up keyboard listeners when scene stops
+    this.input.keyboard?.removeAllListeners();
+  }
+
   create(data: LevelResult & { levelKey: string }): void {
     const { width, height } = this.cameras.main;
 

@@ -10,6 +10,11 @@ export class SkinsScene extends Phaser.Scene {
     super({ key: SCENES.SKINS });
   }
 
+  shutdown(): void {
+    // Clean up keyboard listeners when scene stops
+    this.input.keyboard?.removeAllListeners();
+  }
+
   create(): void {
     const { width, height } = this.cameras.main;
 

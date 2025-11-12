@@ -12,6 +12,11 @@ export class OptionsScene extends Phaser.Scene {
     super({ key: SCENES.OPTIONS });
   }
 
+  shutdown(): void {
+    // Clean up keyboard listeners when scene stops
+    this.input.keyboard?.removeAllListeners();
+  }
+
   create(): void {
     const { width, height } = this.cameras.main;
     const settings = storage.getSettings();
@@ -80,7 +85,18 @@ export class OptionsScene extends Phaser.Scene {
     });
     backBtn.setOrigin(0.5);
     backBtn.setInteractive({ useHandCursor: true });
-    backBtn.on('pointerdown', () => this.scene.start(SCENES.TITLE));
+    backBtn.on('pointerdown', () => {
+      // Check if GameScene is paused (launched from pause menu)
+      const gameScene = this.scene.get(SCENES.GAME);
+      if (gameScene && this.scene.isPaused(SCENES.GAME)) {
+        // Resume game and close options
+        this.scene.stop();
+        this.scene.resume(SCENES.GAME);
+      } else {
+        // Go back to title menu
+        this.scene.start(SCENES.TITLE);
+      }
+    });
     backBtn.on('pointerover', () => backBtn.setColor('#FFD700'));
     backBtn.on('pointerout', () => backBtn.setColor('#FFFFFF'));
   }

@@ -9,6 +9,11 @@ export class CreditsScene extends Phaser.Scene {
     super({ key: SCENES.CREDITS });
   }
 
+  shutdown(): void {
+    // Clean up keyboard listeners when scene stops
+    this.input.keyboard?.removeAllListeners();
+  }
+
   create(): void {
     const { width, height } = this.cameras.main;
 

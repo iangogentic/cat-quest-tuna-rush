@@ -16,6 +16,7 @@ import { LevelResult } from '../types';
  */
 export class GameScene extends Phaser.Scene {
   private player!: Player;
+  private platforms!: Phaser.GameObjects.GameObject[];
   private tunaGroup!: Phaser.GameObjects.Group;
   private enemyGroup!: Phaser.GameObjects.Group;
   private hazardGroup!: Phaser.GameObjects.Group;
@@ -53,6 +54,11 @@ export class GameScene extends Phaser.Scene {
     this.nineLivesActive = false;
     this.dogBoss = null;
     this.fallingCrates = [];
+  }
+
+  shutdown(): void {
+    // Clean up keyboard listeners when scene stops
+    this.input.keyboard?.removeAllListeners();
   }
 
   create(): void {
@@ -124,9 +130,13 @@ export class GameScene extends Phaser.Scene {
     // Background
     this.add.rectangle(0, 0, width, height, 0x87CEEB).setOrigin(0);
 
+    // Initialize platforms array
+    this.platforms = [];
+
     // Ground
     const ground = this.add.rectangle(0, height - 50, width, 100, 0x228B22).setOrigin(0);
     this.physics.add.existing(ground, true);
+    this.platforms.push(ground);
 
     // Initialize groups
     this.enemyGroup = this.add.group();
@@ -175,6 +185,7 @@ export class GameScene extends Phaser.Scene {
     platformData.forEach((data) => {
       const platform = this.add.rectangle(data.x, data.y, data.width, data.height, 0x8B4513);
       this.physics.add.existing(platform, true);
+      this.platforms.push(platform);
     });
   }
 
@@ -315,6 +326,7 @@ export class GameScene extends Phaser.Scene {
     platforms.forEach((data) => {
       const platform = this.add.rectangle(data.x, data.y, data.width, data.height, 0x8B4513);
       this.physics.add.existing(platform, true);
+      this.platforms.push(platform);
     });
 
     // Create tuna trail (teaches collection)
@@ -358,6 +370,7 @@ export class GameScene extends Phaser.Scene {
     platforms.forEach((data) => {
       const platform = this.add.rectangle(data.x, data.y, data.width, data.height, 0x8B4513);
       this.physics.add.existing(platform, true);
+      this.platforms.push(platform);
     });
 
     // Scattered tuna (vertical collection)
@@ -411,6 +424,7 @@ export class GameScene extends Phaser.Scene {
     platforms.forEach((data) => {
       const platform = this.add.rectangle(data.x, data.y, data.width, data.height, 0x8B4513);
       this.physics.add.existing(platform, true);
+      this.platforms.push(platform);
     });
 
     // Tuna with hazards nearby (risk/reward)
@@ -467,18 +481,23 @@ export class GameScene extends Phaser.Scene {
     const arenaWidth = 800;
     const arenaFloor = this.add.rectangle(width / 2, height - 100, arenaWidth, 20, 0x8B4513);
     this.physics.add.existing(arenaFloor, true);
+    this.platforms.push(arenaFloor);
 
     // Side walls (for dog to bonk into)
     const leftWall = this.add.rectangle(width / 2 - arenaWidth / 2 - 20, height - 200, 40, 200, 0x666666);
     const rightWall = this.add.rectangle(width / 2 + arenaWidth / 2 + 20, height - 200, 40, 200, 0x666666);
     this.physics.add.existing(leftWall, true);
     this.physics.add.existing(rightWall, true);
+    this.platforms.push(leftWall);
+    this.platforms.push(rightWall);
 
     // Some platforms for dodging
     const platform1 = this.add.rectangle(width / 2 - 200, height - 200, 100, 20, 0x8B4513);
     const platform2 = this.add.rectangle(width / 2 + 200, height - 200, 100, 20, 0x8B4513);
     this.physics.add.existing(platform1, true);
     this.physics.add.existing(platform2, true);
+    this.platforms.push(platform1);
+    this.platforms.push(platform2);
 
     // Tuna for healing/scoring (scattered around arena)
     this.createTunaTrail([
@@ -516,6 +535,11 @@ export class GameScene extends Phaser.Scene {
   // ==================== COLLISION SETUP ====================
 
   private setupCollisions(): void {
+    // Player vs Platforms (CRITICAL - allows player to stand on platforms)
+    this.platforms.forEach((platform) => {
+      this.physics.add.collider(this.player, platform);
+    });
+
     // Player vs Tuna
     this.physics.add.overlap(this.player, this.tunaGroup, this.collectTuna as any, undefined, this);
 

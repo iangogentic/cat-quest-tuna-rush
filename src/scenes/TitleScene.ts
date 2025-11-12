@@ -12,6 +12,11 @@ export class TitleScene extends Phaser.Scene {
     super({ key: SCENES.TITLE });
   }
 
+  shutdown(): void {
+    // Clean up all keyboard listeners when scene stops
+    this.input.keyboard?.removeAllListeners();
+  }
+
   create(): void {
     const { width, height } = this.cameras.main;
 

@@ -10,6 +10,11 @@ export class LevelSelectScene extends Phaser.Scene {
     super({ key: SCENES.LEVEL_SELECT });
   }
 
+  shutdown(): void {
+    // Clean up keyboard listeners when scene stops
+    this.input.keyboard?.removeAllListeners();
+  }
+
   create(): void {
     const { width } = this.cameras.main;
 
