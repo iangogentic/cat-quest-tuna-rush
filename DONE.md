@@ -327,11 +327,42 @@ The game is **production-deployed** and ready for iterative content addition!
 ---
 
 **Build Date:** 2025-01-12
-**Build Time:** Initial build ~1 hour | Iteration 5: +2 hours
-**Status:** ✅ DEPLOYED & FULLY PLAYABLE WITH ALL CORE FEATURES
+**Build Time:** Initial build ~1 hour | Iteration 5: +2 hours | Bug Fixes: +30 mins
+**Status:** ✅ DEPLOYED & FULLY PLAYABLE WITH ALL CORE FEATURES - BUGS FIXED
 **Completion:** ~85% of PRD features implemented
+
 ## Iteration 5 - 11/12/2025
 **Request:** continue
 **Branch:** iteration-5
 **Status:** ✅ Complete
+
+## Bug Fixes - 11/12/2025
+**Request:** Fix player controls and menu navigation issues
+**Status:** ✅ Complete
+
+### Issues Fixed:
+1. **Player Control Freeze** ❌→✅
+   - **Problem**: Player falling through all platforms infinitely
+   - **Root Cause**: Missing `physics.add.collider()` between player and platforms
+   - **Fix**: Added platforms array to track all platform GameObjects, added collider for each platform
+   - **Location**: `src/scenes/GameScene.ts:19,129,533-536`
+
+2. **Back Buttons Not Working** ❌→✅
+   - **Problem**: Menu navigation broken, back buttons unresponsive or erratic
+   - **Root Cause**: Keyboard event listeners not cleaned up on scene change, causing duplicate handlers
+   - **Fix**: Added `shutdown()` method to all scenes to call `input.keyboard?.removeAllListeners()`
+   - **Locations**: All scene files (TitleScene, GameScene, LevelSelectScene, OptionsScene, SkinsScene, CreditsScene, ResultsScene)
+
+3. **Pause Menu Navigation** ❌→✅
+   - **Problem**: Back button in OptionsScene always went to title, even when opened from pause menu
+   - **Fix**: Added logic to detect if GameScene is paused and properly resume it instead of going to title
+   - **Location**: `src/scenes/OptionsScene.ts:88-99`
+
+### Verification:
+- ✅ Build compiles successfully with TypeScript strict mode
+- ✅ Dev server runs without errors
+- ✅ Player can now move, jump, and dash on platforms
+- ✅ Menu navigation works correctly (forward and back)
+- ✅ Pause menu (ESC) properly resumes game when closed
+- ✅ All scenes properly clean up resources on exit
 
